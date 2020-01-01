@@ -1,0 +1,49 @@
+{
+	"cmd_list": {
+		"history_backup": [
+			">start shell",
+			"%mkdir /tmp/test",
+			"%cp -p /var/log/interactive-commands /tmp/test",
+			"%cp -p /var/log/messages /tmp/test",
+			"%exit"
+		],
+		"get_config": [
+			">edit",
+			"#save ftp://user:123456@192.168.111.105",
+			"#exit"
+		],
+		"history_recover": [
+			">start shell",
+			"%su",
+			"%sed -i -e '/juniper_time/d' /tmp/test/interactive-commands",
+			"%sed -i -e '/juniper_time/d' /tmp/test/messages",
+			"%cp -p /tmp/test/interactive-commands /var/log",
+			"%cp -p /tmp/test/messages /var/log",
+			"%rm -r /tmp/test",
+			"%exit"
+		]
+	},
+	"ip_list": [
+		{
+			"ip": "192.168.111.82",
+			"port": "23",
+			"type":"juniper",
+			"username": "foobar",
+			"password": "123qwe!@#QWE",
+			"su_password": "123qwe!@#QWE"
+		},
+		{
+			"ip": "192.168.111.104",
+			"port" : "23",
+			"type":"unix",
+			"username": "snow",
+			"password": "123qwe!@#QWE",
+			"su_password": "123qwe!@#QWE"
+		},
+		{
+			"ip": "127.0.0.1",
+			"username": "snow",
+			"password": "123456"
+		}
+	]
+}
