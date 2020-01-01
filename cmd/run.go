@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/wedojava/cfg_backup/internal/commons"
+	"github.com/wedojava/Cbackup/internal/commons"
 )
 
 func passArgVerify() bool {
