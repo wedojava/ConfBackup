@@ -28,6 +28,7 @@
 			"ip": "192.168.111.82",
 			"port": "23",
 			"type":"juniper",
+			"is_authentication": true,
 			"username": "foobar",
 			"password": "123qwe!@#QWE",
 			"su_password": "123qwe!@#QWE"
