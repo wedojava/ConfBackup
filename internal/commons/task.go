@@ -1,20 +1,9 @@
 package commons
 
-// TaskItem get from config file.
-type TaskItem struct {
-	IP               string
-	Port             string
-	Type             string
-	IsAuthentication bool
-	Username         string
-	Password         string
-	SuPassword       string
-}
-
 // TaskRun will run one item's task.
-func (ti *TaskItem) TaskRun() {
+func (host *Host) TaskRun() {
 	// 3.1. login
-	ti.Login()
+	host.Login()
 	// 3.2. history backup
 	//ti.HistoryBackup()
 	// 3.3. do it

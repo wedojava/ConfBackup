@@ -26,8 +26,8 @@ func execute(t *telnet.Conn, strSend string, strPrompt ...string) {
 }
 
 // Login is used to login Unix, Juniper or Cisco devices.
-func (ti *TaskItem) Login() {
-	typ, dst, user, passwd := "juniper", net.JoinHostPort(ti.IP, ti.Port), ti.Username, ti.Password
+func (host *Host) Login() {
+	typ, dst, user, passwd := "juniper", net.JoinHostPort(host.IP, host.Port), host.Username, host.Password
 	t, err := telnet.Dial("tcp", dst)
 	Check(err)
 	t.SetUnixWriteMode(true)

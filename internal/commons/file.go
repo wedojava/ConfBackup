@@ -10,8 +10,8 @@ import (
 
 // Conf is the struction of conf.json
 type Conf struct {
-	CmdList `json:"cmd_list"`
-	IPList  `json:"ip_list"`
+	CmdList  `json:"cmd_list"`
+	HostList `json:"host_list"`
 }
 
 type CmdList struct {
@@ -20,7 +20,9 @@ type CmdList struct {
 	HistoryRecover []string `json:"history_recover"`
 }
 
-type IPList []struct {
+type HostList []Host
+
+type Host struct {
 	IP               string `json:"ip"`
 	Port             string `json:"port"`
 	Type             string `json:"type"`
