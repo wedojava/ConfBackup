@@ -4,6 +4,7 @@ package commons
 type TaskItem struct {
 	IP               string
 	Port             string
+	Type             string
 	IsAuthentication bool
 	Username         string
 	Password         string
@@ -15,6 +16,7 @@ func (ti *TaskItem) TaskRun() {
 	// 3.1. login
 	ti.Login()
 	// 3.2. history backup
+	//ti.HistoryBackup()
 	// 3.3. do it
 	// 3.4. history recover
 }

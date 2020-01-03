@@ -52,8 +52,3 @@ func (ti *TaskItem) Login() {
 	os.Stdout.Write(data)
 	os.Stdout.WriteString("\n")
 }
-
-// HistoryBackup will backup what described in conf.json
-//func (ti *TaskItem) HistoryBackup() {
-//
-//}
