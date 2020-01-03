@@ -1,11 +1,14 @@
 package commons
 
-// TaskRun will run one item's task.
-func (host *Host) TaskRun() {
-	// 3.1. login
-	host.Login()
-	// 3.2. history backup
-	//ti.HistoryBackup()
-	// 3.3. do it
-	// 3.4. history recover
+// TaskListRun will run hosts that in conf.json.
+func (conf *Conf) ConfTaskListRun() {
+	hosts := conf.HostList
+	for _, host := range hosts {
+		// 3.1. login
+		t, _ := host.HostLogin()
+		// 3.2. Task RUN
+		conf.ConfHistoryBackup(t)
+		conf.ConfGetConfig(t)
+		conf.ConfHistoryRecover(t, host)
+	}
 }

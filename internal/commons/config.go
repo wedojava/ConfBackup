@@ -10,11 +10,11 @@ import (
 
 // Conf is the struction of conf.json
 type Conf struct {
-	CmdList  `json:"cmd_list"`
+	CMDList  `json:"cmd_list"`
 	HostList `json:"host_list"`
 }
 
-type CmdList struct {
+type CMDList struct {
 	HistoryBackup  []string `json:"history_backup"`
 	GetConfig      []string `json:"get_config"`
 	HistoryRecover []string `json:"history_recover"`
