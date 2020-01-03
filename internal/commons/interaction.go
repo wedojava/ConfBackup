@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"strings"
 	"time"
 
 	"github.com/ziutek/telnet"
@@ -39,7 +40,7 @@ func (host *Host) HostLogin() (*telnet.Conn, error) {
 	typ, dst, user, passwd := "juniper", net.JoinHostPort(host.IP, host.Port), host.Username, host.Password
 	t, err := telnet.Dial("tcp", dst)
 	if err != nil {
-		fmt.Println("[-] "+host.IP+":"+host.Port + " cannot connect.")
+		fmt.Println("[-] " + host.IP + ":" + host.Port + " cannot connect.")
 		return nil, err
 	}
 	t.SetUnixWriteMode(true)
@@ -66,7 +67,7 @@ func (host *Host) HostLogin() (*telnet.Conn, error) {
 }
 
 func (conf *Conf) ConfHistoryBackup(t *telnet.Conn) {
-	if t == nil{
+	if t == nil {
 		return
 	}
 	for _, cmd := range conf.HistoryBackup {
@@ -75,18 +76,23 @@ func (conf *Conf) ConfHistoryBackup(t *telnet.Conn) {
 	fmt.Println("[+] History backup completed.")
 }
 
-func (conf *Conf) ConfGetConfig(t *telnet.Conn) {
-	if t == nil{
+func (conf *Conf) ConfGetConfig(t *telnet.Conn, host Host) {
+	if t == nil {
 		return
 	}
 	for _, cmd := range conf.GetConfig {
-		telnetCommand(t, cmd[1:], cmd[:1])
+		if strings.Contains(cmd[1:], "ftp://") {
+			// save with diff filename,named by ip.
+			telnetCommand(t, cmd[1:]+"//"+host.IP+".conf", cmd[:1])
+		} else {
+			telnetCommand(t, cmd[1:], cmd[:1])
+		}
 	}
 	fmt.Println("[+] Configuration save completed.")
 }
 
 func (conf *Conf) ConfHistoryRecover(t *telnet.Conn, host Host) {
-	if t == nil{
+	if t == nil {
 		return
 	}
 	for _, cmd := range conf.HistoryRecover {

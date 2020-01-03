@@ -26,7 +26,7 @@ func TestConfHistoryBackup(t *testing.T) {
 		host := conf.HostList[0]
 		telnetObj, err := host.HostLogin()
 		conf.ConfHistoryBackup(telnetObj)
-		conf.ConfGetConfig(telnetObj)
+		conf.ConfGetConfig(telnetObj, host)
 		conf.ConfHistoryRecover(telnetObj, host)
 		if err != nil {
 			t.Errorf("Login success but err not nil.")
@@ -36,7 +36,7 @@ func TestConfHistoryBackup(t *testing.T) {
 		host := conf.HostList[1]
 		telnetObj, err := host.HostLogin()
 		conf.ConfHistoryBackup(telnetObj)
-		conf.ConfGetConfig(telnetObj)
+		conf.ConfGetConfig(telnetObj, host)
 		conf.ConfHistoryRecover(telnetObj, host)
 		if err == nil {
 			t.Errorf("Login failure but err is nil.")

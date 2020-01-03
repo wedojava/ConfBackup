@@ -8,7 +8,7 @@ func (conf *Conf) ConfTaskListRun() {
 		t, _ := host.HostLogin()
 		// 3.2. Task RUN
 		conf.ConfHistoryBackup(t)
-		conf.ConfGetConfig(t)
+		conf.ConfGetConfig(t, host)
 		conf.ConfHistoryRecover(t, host)
 	}
 }
