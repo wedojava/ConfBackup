@@ -11,16 +11,16 @@ import (
 
 const timeout = 10 * time.Second
 
-func expect(t *telnet.Conn, d ...string) {
+// execute command, t is obj of telnet.Conn, strSend is the command you send, strPrompt is the prompt string before you type the command
+func execute(t *telnet.Conn, strSend string, strPrompt ...string) {
+	// 1. get expect prompt string
 	Check(t.SetReadDeadline(time.Now().Add(timeout)))
-	Check(t.SkipUntil(d...))
-}
-
-func send(t *telnet.Conn, s string) {
+	Check(t.SkipUntil(strPrompt...))
+	// 2. send command string
 	Check(t.SetWriteDeadline(time.Now().Add(timeout)))
-	buf := make([]byte, len(s)+1)
-	copy(buf, s)
-	buf[len(s)] = '\n'
+	buf := make([]byte, len(strSend)+1)
+	copy(buf, strSend)
+	buf[len(strSend)] = '\n'
 	_, err := t.Write(buf)
 	Check(err)
 }
@@ -34,28 +34,16 @@ func (ti *TaskItem) Login() {
 	var data []byte
 	switch typ {
 	case "unix":
-		expect(t, "login: ")
-		send(t, user)
-		expect(t, "ssword: ")
-		send(t, passwd)
-		expect(t, "$")
-		send(t, "ls -l")
+		execute(t, user, "login: ")
+		execute(t, passwd, "ssword:")
 		data, err = t.ReadBytes('$')
 	case "juniper":
-		expect(t, "login: ")
-		send(t, user)
-		expect(t, "ssword:")
-		send(t, passwd)
-		expect(t, ">")
-		send(t, "sh ver")
+		execute(t, user, "login: ")
+		execute(t, passwd, "ssword:")
 		data, err = t.ReadBytes('>')
 	case "cisco":
-		expect(t, "name: ")
-		send(t, user)
-		expect(t, "ssword: ")
-		send(t, passwd)
-		expect(t, ">")
-		send(t, "sh ver")
+		execute(t, user, "name: ")
+		execute(t, passwd, "ssword: ")
 		data, err = t.ReadBytes('>')
 	default:
 		log.Fatalln("bad host type: " + typ)
@@ -64,3 +52,8 @@ func (ti *TaskItem) Login() {
 	os.Stdout.Write(data)
 	os.Stdout.WriteString("\n")
 }
+
+// HistoryBackup will backup what described in conf.json
+//func (ti *TaskItem) HistoryBackup() {
+//
+//}
