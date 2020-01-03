@@ -10,19 +10,24 @@ import (
 
 // Conf is the struction of conf.json
 type Conf struct {
-	CmdList struct {
-		HistoryBackup  []string
-		GetConfig      []string
-		HistoryRecover []string
-	}
-	IPList []struct {
-		IP         string
-		Port       string
-		Type       string
-		Username   string
-		Password   string
-		SuPassword string
-	}
+	CmdList `json:"cmd_list"`
+	IPList  `json:"ip_list"`
+}
+
+type CmdList struct {
+	HistoryBackup  []string `json:"history_backup"`
+	GetConfig      []string `json:"get_config"`
+	HistoryRecover []string `json:"history_recover"`
+}
+
+type IPList []struct {
+	IP               string `json:"ip"`
+	Port             string `json:"port"`
+	Type             string `json:"type"`
+	IsAuthentication bool   `json:"is_authentication"`
+	Username         string `json:"username"`
+	Password         string `json:"password"`
+	SuPassword       string `json:"su_password"`
 }
 
 // Check errors and log out
@@ -33,13 +38,13 @@ func Check(e error) {
 	}
 }
 
-// GetConfRaw will get the raw data of config file to string
-// func GetConfRaw(rootpath, confName string) string {
-// 	filename := filepath.Join(rootpath, confName)
-// 	dat, err := ioutil.ReadFile(filename)
-// 	Check(err)
-// 	return string(dat)
-// }
+//GetConfRaw will get the raw data of config file to string
+//func GetConfRaw(rootpath, confName string) string {
+//	filename := filepath.Join(rootpath, confName)
+//	dat, err := ioutil.ReadFile(filename)
+//	Check(err)
+//	return string(dat)
+//}
 
 // LoadConf will load json file and return conf struct
 func LoadConf(rootpath, confName string) Conf {
@@ -51,6 +56,5 @@ func LoadConf(rootpath, confName string) Conf {
 	if errUnmarshal != nil {
 		fmt.Println("error:", errUnmarshal)
 	}
-	fmt.Printf("%+v", confObj)
 	return confObj
 }
