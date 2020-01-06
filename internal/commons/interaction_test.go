@@ -20,6 +20,18 @@ func TestHostLogin(t *testing.T) {
 	})
 }
 
+func TestConf_ConfGetConfig(t *testing.T) {
+	conf := LoadConf("../..", "conf.json")
+	t.Run("save with diff names.", func(t *testing.T) {
+		host := conf.HostList[0]
+		telnetObj, err := host.HostLogin()
+		conf.ConfGetConfig(telnetObj, host)
+		if err != nil {
+			t.Errorf("Login success but err not nil.")
+		}
+	})
+}
+
 func TestConfHistoryBackup(t *testing.T) {
 	conf := LoadConf("../..", "conf.json")
 	t.Run("The right conn info.", func(t *testing.T) {

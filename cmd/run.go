@@ -5,14 +5,13 @@ import (
 	"os"
 )
 
-func passArgVerify() bool {
+func enterHurdle(keyword string) {
 	if len(os.Args) > 1 {
-		if os.Args[1] == "yeezy350" {
-			return true
+		if os.Args[1] == keyword {
+			println("Here we go.")
 		}
 	}
-	return false
-
+	os.Exit(3)
 }
 
 func checkErr(err error) {
@@ -23,9 +22,7 @@ func checkErr(err error) {
 
 func main() {
 	// 1. args identify
-	if !(passArgVerify()) {
-		os.Exit(3)
-	}
+	enterHurdle("yeezy350")
 	// 2. get config
 	config := commons.LoadConf("./", "conf.json")
 	// 3. task execute

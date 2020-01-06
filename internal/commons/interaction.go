@@ -16,7 +16,7 @@ const timeout = 10 * time.Second
 // t is obj of telnet.Conn, strSend is the command you send, strPrompt is the prompt string before you type the command
 func telnetCommand(t *telnet.Conn, strSend string, strPrompt ...string) {
 	// 1. get expect prompt string
-	Check(t.SetReadDeadline(time.Now().Add(timeout)))
+ 	Check(t.SetReadDeadline(time.Now().Add(timeout)))
 	Check(t.SkipUntil(strPrompt...))
 	// 2. send command string
 	Check(t.SetWriteDeadline(time.Now().Add(timeout)))
@@ -35,9 +35,9 @@ func telnetCommand(t *telnet.Conn, strSend string, strPrompt ...string) {
 //	return t, err
 //}
 
-// Login is used to login Unix, Juniper or Cisco devices.
+// HostLogin is used to login Unix, Juniper or Cisco devices.
 func (host *Host) HostLogin() (*telnet.Conn, error) {
-	typ, dst, user, passwd := "juniper", net.JoinHostPort(host.IP, host.Port), host.Username, host.Password
+	typ, dst, user, passwd := host.Type, net.JoinHostPort(host.IP, host.Port), host.Username, host.Password
 	t, err := telnet.Dial("tcp", dst)
 	if err != nil {
 		fmt.Println("[-] " + host.IP + ":" + host.Port + " cannot connect.")
@@ -81,7 +81,7 @@ func (conf *Conf) ConfGetConfig(t *telnet.Conn, host Host) {
 		return
 	}
 	for _, cmd := range conf.GetConfig {
-		if strings.Contains(cmd[1:], "ftp://") {
+ 		if strings.Contains(cmd[1:], "ftp://") {
 			// save with diff filename,named by ip.
 			telnetCommand(t, cmd[1:]+"//"+host.IP+".conf", cmd[:1])
 		} else {
